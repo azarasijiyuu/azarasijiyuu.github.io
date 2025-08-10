@@ -50,6 +50,26 @@
       font-style: italic;
       text-shadow: 0 0 5px rgba(0,0,0,0.4);
     }
+    /* 追加のスタイル */
+    section.theme-reason {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 2em;
+      text-align: left;
+      box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+    }
+    section.theme-reason h2 {
+      color: #4fc3f7;
+      margin-bottom: 0.8em;
+      text-shadow: 0 0 6px #4fc3f7;
+      font-size: 1.8rem;
+    }
+    section.theme-reason p {
+      text-shadow: none;
+      font-size: 1.1em;
+      line-height: 1.5;
+    }
 
     /* スマホ対応 */
     @media (max-width: 600px) {
@@ -64,6 +84,12 @@
         display: block;
         margin: 8px 0;
       }
+      section.theme-reason {
+        padding: 15px;
+      }
+      section.theme-reason h2 {
+        font-size: 1.5rem;
+      }
     }
   </style>
 </head>
@@ -71,11 +97,18 @@
   <h1>Azaponの天気部屋へようこそ！🦭</h1>
   <p>ここはAzaponの自由研究の場です。天気の仕組みや気圧の変化を楽しく探求しよう！</p>
   <p>GitHub Pages × 独自ドメインで作ったシンプルな天気&気圧研究サイト。</p>
+  
   <nav>
     <a href="kanji-history.html">気圧の変化</a> |
     <a href="kanji-structure.html">天気の仕組み</a> |
     <a href="diary.html">日記</a>
   </nav>
+
+  <section class="theme-reason">
+    <h2>このテーマにした理由</h2>
+    <p>天気予報をお手軽に測定できるのかな、という疑問と、今までの経験から、気圧が低いと曇りのような天気だったので、気圧の変化で天気が変わるのかが気になったということと、以前同じようなものを持っていたが、地震で割れてしまって、いつかまたほしいなと思っていたら、イオンで売っていたので、このテーマにしました。</p>
+  </section>
+
   <footer>
     &copy; 2025 zpgilo39 | Powered by Azapon & AzakingyoPlaty
   </footer>
