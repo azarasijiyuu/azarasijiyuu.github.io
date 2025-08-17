@@ -1,0 +1,31 @@
+name: Generate sitemap.xml
+
+on:
+  push:
+    branches: [ main ]  # main ブランチに push したとき実行
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v3
+
+      - name: Node.js 設定
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: sitemap.xml を生成
+        run: |
+          npm install cheerio
+          node .github/workflows/generate_sitemap.js
+
+      - name: sitemap.xml をコミットして push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add sitemap.xml
+          git commit -m "自動生成 sitemap.xml" || echo "変更なし"
+          git push
