@@ -14,10 +14,11 @@
     nav a { color:#81d4fa; margin:0 1em; text-decoration:none; font-weight:bold; }
     nav a:hover { color:#a0e9ff; text-decoration:underline; }
     footer { margin-top:3em; font-size:0.8em; color:#aaa; font-style:italic; }
+    section { margin-top:2em; }
   </style>
 </head>
 <body>
-  <h1>天気の変化</h1>
+  <h1>天気の変化 – 自由研究</h1>
 
   <nav>
     <a href="index.html">トップ</a> |
@@ -25,13 +26,27 @@
     <a href="diary.html">日記</a>
   </nav>
 
-  <table id="data-table">
-    <tr>
-      <th>日付</th>
-      <th>画像</th>
-      <th>天気</th>
-    </tr>
-  </table>
+  <section>
+    <h2>結論</h2>
+    <p>気圧や観察画像をもとに、天気の変化を理解することができる。晴れ・曇り・雨の対応を確認しよう。</p>
+  </section>
+
+  <section>
+    <h2>観察記録</h2>
+    <table id="data-table">
+      <tr>
+        <th>日付</th>
+        <th>画像</th>
+        <th>気圧 (hPa)</th>
+        <th>天気</th>
+      </tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>まとめ</h2>
+    <p>日々の観察を記録し、気圧と天気の関係を整理することで自由研究の理解が深まる。</p>
+  </section>
 
   <script>
   async function loadDiaryData() {
@@ -60,8 +75,14 @@
         }
         tr.appendChild(tdImg);
 
-        const tdWeather = document.createElement('td'); // 手動入力用
-        tdWeather.textContent = '';
+        const tdPressure = document.createElement('td');
+        tdPressure.contentEditable = "true"; // 手動で入力可能
+        tdPressure.style.backgroundColor = "#333";
+        tr.appendChild(tdPressure);
+
+        const tdWeather = document.createElement('td');
+        tdWeather.contentEditable = "true"; // 手動で入力可能
+        tdWeather.style.backgroundColor = "#333";
         tr.appendChild(tdWeather);
 
         table.appendChild(tr);
