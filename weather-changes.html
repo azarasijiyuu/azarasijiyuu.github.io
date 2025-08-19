@@ -5,56 +5,15 @@
   <title>天気の変化 – Azaponの自由研究</title>
   <link rel="icon" href="images/azarasi.png" type="image/png">
   <style>
-    body {
-      font-family: 'Helvetica Neue', Arial, sans-serif;
-      background: linear-gradient(135deg, #1a1a1a, #333);
-      color: #eee;
-      margin: 40px auto;
-      max-width: 900px;
-      line-height: 1.6;
-      box-shadow: 0 0 20px rgba(0,0,0,0.7);
-      border-radius: 10px;
-      padding: 30px 20px;
-    }
-    h1 {
-      text-align: center;
-      font-size: 2.5rem;
-      color: #4fc3f7;
-      text-shadow: 0 0 8px #4fc3f7;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1em;
-    }
-    th, td {
-      border: 1px solid #444;
-      padding: 8px;
-      text-align: center;
-    }
-    th {
-      background-color: rgba(79, 195, 247, 0.2);
-    }
-    td[contenteditable="true"] {
-      background-color: rgba(255,255,255,0.05);
-    }
-    nav a {
-      color: #81d4fa;
-      margin: 0 1em;
-      text-decoration: none;
-      font-weight: bold;
-      transition: color 0.3s ease;
-    }
-    nav a:hover {
-      color: #a0e9ff;
-      text-decoration: underline;
-    }
-    footer {
-      margin-top: 3em;
-      font-size: 0.8em;
-      color: #aaa;
-      font-style: italic;
-    }
+    body { font-family:'Helvetica Neue', Arial, sans-serif; background:#222; color:#eee; margin:40px auto; max-width:900px; line-height:1.6; padding:30px 20px; border-radius:10px; box-shadow:0 0 20px rgba(0,0,0,0.7);}
+    h1 { text-align:center; color:#4fc3f7; font-size:2.5rem; text-shadow:0 0 8px #4fc3f7;}
+    table { width:100%; border-collapse: collapse; margin-top:2em; }
+    th, td { border:1px solid #444; padding:8px; text-align:center; }
+    th { background-color: rgba(79,195,247,0.2); }
+    img { max-width:200px; height:auto; border-radius:5px; }
+    nav a { color:#81d4fa; margin:0 1em; text-decoration:none; font-weight:bold; }
+    nav a:hover { color:#a0e9ff; text-decoration:underline; }
+    footer { margin-top:3em; font-size:0.8em; color:#aaa; font-style:italic; }
   </style>
 </head>
 <body>
@@ -66,39 +25,50 @@
     <a href="diary.html">日記</a>
   </nav>
 
-  <h2>観察記録</h2>
-  <table id="weather-table">
+  <table id="data-table">
     <tr>
       <th>日付</th>
-      <th>気圧（hPa）</th>
+      <th>画像</th>
       <th>天気</th>
     </tr>
-    <!-- diary.html から日付だけ自動取得 -->
   </table>
 
   <script>
-    async function fetchDiaryData() {
-      try {
-        const response = await fetch('diary.html');
-        const text = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(text, 'text/html');
+  async function loadDiaryData() {
+    try {
+      const res = await fetch('diary.html');
+      const text = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text,'text/html');
+      const articles = doc.querySelectorAll('article');
+      const table = document.getElementById('data-table');
 
-        const articles = doc.querySelectorAll('article');
-        const table = document.getElementById('weather-table');
+      articles.forEach(article => {
+        const date = article.querySelector('time')?.getAttribute('datetime') || '';
+        const imgSrc = article.querySelector('img')?.getAttribute('src') || '';
+        const tr = document.createElement('tr');
 
-        articles.forEach(article => {
-          const date = article.querySelector('time')?.textContent.trim();
-          const row = document.createElement('tr');
-          row.innerHTML = `<td>${date}</td><td contenteditable="true">ここに入力</td><td contenteditable="true">ここに入力</td>`;
-          table.appendChild(row);
-        });
-      } catch (err) {
-        console.error('diary.htmlの読み込みに失敗しました', err);
-      }
-    }
+        const tdDate = document.createElement('td');
+        tdDate.textContent = date;
+        tr.appendChild(tdDate);
 
-    fetchDiaryData();
+        const tdImg = document.createElement('td');
+        if(imgSrc){
+          const img = document.createElement('img');
+          img.src = imgSrc;
+          tdImg.appendChild(img);
+        }
+        tr.appendChild(tdImg);
+
+        const tdWeather = document.createElement('td'); // 手動入力用
+        tdWeather.textContent = '';
+        tr.appendChild(tdWeather);
+
+        table.appendChild(tr);
+      });
+    } catch(err){ console.error('diary.html読み込み失敗:',err);}
+  }
+  loadDiaryData();
   </script>
 
   <footer>
