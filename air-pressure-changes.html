@@ -1,36 +1,23 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>気圧の変化 – Azaponの自由研究</title>
-  <link rel="icon" href="images/azarasi.png" type="image/png" />
+  <link rel="icon" href="images/azarasi.png" type="image/png">
   <style>
-    body {
-      font-family: 'Helvetica Neue', Arial, sans-serif;
-      background: linear-gradient(135deg, #1a1a1a, #333);
-      color: #eee;
-      margin: 40px auto;
-      max-width: 900px;
-      line-height: 1.6;
-      box-shadow: 0 0 20px rgba(0,0,0,0.7);
-      border-radius: 10px;
-      padding: 30px 20px;
-    }
-    h1 { color: #4fc3f7; text-align: center; font-size: 2.5rem; text-shadow: 0 0 8px #4fc3f7; }
-    h2 { color: #81d4fa; font-size: 1.8rem; margin-top: 2em; }
-    p { font-size: 1.2em; text-shadow: 0 0 5px rgba(0,0,0,0.7); }
-    table { width: 100%; border-collapse: collapse; margin-top: 1em; }
-    th, td { border: 1px solid #444; padding: 8px; text-align: center; }
-    th { background-color: rgba(79, 195, 247, 0.2); }
-    img { max-width: 300px; height: auto; display: block; margin: 10px auto; border-radius: 8px; }
-    nav a { color: #81d4fa; margin: 0 1em; text-decoration: none; font-weight: bold; transition: color 0.3s ease; }
-    nav a:hover { color: #a0e9ff; text-decoration: underline; }
-    footer { margin-top: 3em; font-size: 0.8em; color: #aaa; font-style: italic; }
+    body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #222; color: #eee; margin: 40px auto; max-width: 900px; line-height: 1.6; padding: 30px 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.7);}
+    h1 { text-align: center; color:#4fc3f7; font-size:2.5rem; text-shadow:0 0 8px #4fc3f7;}
+    table { width: 100%; border-collapse: collapse; margin-top: 2em; }
+    th, td { border:1px solid #444; padding:8px; text-align:center; }
+    th { background-color: rgba(79,195,247,0.2); }
+    img { max-width: 200px; height:auto; border-radius:5px; }
+    nav a { color:#81d4fa; margin:0 1em; text-decoration:none; font-weight:bold; }
+    nav a:hover { color:#a0e9ff; text-decoration:underline; }
+    footer { margin-top:3em; font-size:0.8em; color:#aaa; font-style:italic; }
   </style>
 </head>
 <body>
-
-  <h1>気圧の変化 – 水パイプバロメーター原理</h1>
+  <h1>気圧の変化</h1>
 
   <nav>
     <a href="index.html">トップ</a> |
@@ -38,64 +25,54 @@
     <a href="diary.html">日記</a>
   </nav>
 
-  <h2>結論（最初に書く）</h2>
-  <p>気圧が高いと晴れ、低いと曇りや雨になることが多い。</p>
-
-  <h2>実験装置：ゲーテの水パイプバロメーター</h2>
-  <p>この装置では、水面の高さで気圧を観察します。外気圧が低いと水が上がり、高いと水が下がります。</p>
-  <img src="images/water_barometer_example.jpeg" alt="水パイプバロメーター例">
-
-  <h2>観察記録（diary.htmlから自動取得）</h2>
-  <table id="observation-table">
+  <table id="data-table">
     <tr>
       <th>日付</th>
       <th>画像</th>
-      <th>気圧の目安</th>
-      <th>天気</th>
+      <th>気圧 (hPa)</th>
     </tr>
-    <!-- JavaScriptで自動追加 -->
   </table>
 
-  <h2>まとめ</h2>
-  <p>気圧の変化を水面の高さで確認することで、天気の変化が理解しやすくなります。自由研究では、この簡単な装置で日々観察を続けることがポイントです。</p>
+  <script>
+  async function loadDiaryData() {
+    try {
+      const res = await fetch('diary.html');
+      const text = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text,'text/html');
+      const articles = doc.querySelectorAll('article');
+      const table = document.getElementById('data-table');
+
+      articles.forEach(article => {
+        const date = article.querySelector('time')?.getAttribute('datetime') || '';
+        const imgSrc = article.querySelector('img')?.getAttribute('src') || '';
+        const tr = document.createElement('tr');
+
+        const tdDate = document.createElement('td');
+        tdDate.textContent = date;
+        tr.appendChild(tdDate);
+
+        const tdImg = document.createElement('td');
+        if(imgSrc){
+          const img = document.createElement('img');
+          img.src = imgSrc;
+          tdImg.appendChild(img);
+        }
+        tr.appendChild(tdImg);
+
+        const tdPressure = document.createElement('td'); // 手動入力用
+        tdPressure.textContent = '';
+        tr.appendChild(tdPressure);
+
+        table.appendChild(tr);
+      });
+    } catch(err){ console.error('diary.html読み込み失敗:',err);}
+  }
+  loadDiaryData();
+  </script>
 
   <footer>
     &copy; 2025 zpgilo39 | Powered by Azapon
   </footer>
-
-  <script>
-    // diary.html をフェッチして記事を自動取得
-    fetch('diary.html')
-      .then(response => response.text())
-      .then(html => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const articles = doc.querySelectorAll('article');
-        const table = document.getElementById('observation-table');
-
-        articles.forEach(article => {
-          const date = article.querySelector('time')?.textContent || '';
-          const img = article.querySelector('img')?.outerHTML || '';
-          
-          // 仮に水面の高さと天気を簡単に推定
-          let pressure = '不明';
-          let weather = '不明';
-          const imgAlt = article.querySelector('img')?.alt || '';
-          if (imgAlt.includes('晴れ')) { pressure = '高'; weather = '晴れ'; }
-          else if (imgAlt.includes('曇り')) { pressure = '低'; weather = '曇り'; }
-
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${date}</td>
-            <td>${img}</td>
-            <td>${pressure}</td>
-            <td>${weather}</td>
-          `;
-          table.appendChild(row);
-        });
-      })
-      .catch(err => console.error('diary.html 読み込み失敗:', err));
-  </script>
-
 </body>
 </html>
