@@ -5,19 +5,20 @@
   <title>気圧の変化 – Azaponの自由研究</title>
   <link rel="icon" href="images/azarasi.png" type="image/png">
   <style>
-    body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #222; color: #eee; margin: 40px auto; max-width: 900px; line-height: 1.6; padding: 30px 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.7);}
-    h1 { text-align: center; color:#4fc3f7; font-size:2.5rem; text-shadow:0 0 8px #4fc3f7;}
-    table { width: 100%; border-collapse: collapse; margin-top: 2em; }
+    body { font-family:'Helvetica Neue', Arial, sans-serif; background:#222; color:#eee; margin:40px auto; max-width:900px; line-height:1.6; padding:30px 20px; border-radius:10px; box-shadow:0 0 20px rgba(0,0,0,0.7);}
+    h1 { text-align:center; color:#4fc3f7; font-size:2.5rem; text-shadow:0 0 8px #4fc3f7;}
+    table { width:100%; border-collapse: collapse; margin-top:2em; }
     th, td { border:1px solid #444; padding:8px; text-align:center; }
     th { background-color: rgba(79,195,247,0.2); }
-    img { max-width: 200px; height:auto; border-radius:5px; }
+    img { max-width:200px; height:auto; border-radius:5px; }
     nav a { color:#81d4fa; margin:0 1em; text-decoration:none; font-weight:bold; }
     nav a:hover { color:#a0e9ff; text-decoration:underline; }
     footer { margin-top:3em; font-size:0.8em; color:#aaa; font-style:italic; }
+    section { margin-top:2em; }
   </style>
 </head>
 <body>
-  <h1>気圧の変化</h1>
+  <h1>気圧の変化 – 自由研究</h1>
 
   <nav>
     <a href="index.html">トップ</a> |
@@ -25,13 +26,27 @@
     <a href="diary.html">日記</a>
   </nav>
 
-  <table id="data-table">
-    <tr>
-      <th>日付</th>
-      <th>画像</th>
-      <th>気圧 (hPa)</th>
-    </tr>
-  </table>
+  <section>
+    <h2>結論</h2>
+    <p>気圧が高いと晴れ、低いと曇りや雨になることが多い。水パイプバロメーターを使って観察するとわかりやすい。</p>
+  </section>
+
+  <section>
+    <h2>観察記録</h2>
+    <table id="data-table">
+      <tr>
+        <th>日付</th>
+        <th>画像</th>
+        <th>気圧 (hPa)</th>
+        <th>天気</th>
+      </tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>まとめ</h2>
+    <p>水面の高さと気圧を比較することで、天気の変化を理解しやすくなる。日々の観察を続けることがポイント。</p>
+  </section>
 
   <script>
   async function loadDiaryData() {
@@ -60,9 +75,15 @@
         }
         tr.appendChild(tdImg);
 
-        const tdPressure = document.createElement('td'); // 手動入力用
-        tdPressure.textContent = '';
+        const tdPressure = document.createElement('td');
+        tdPressure.contentEditable = "true"; // 手動で入力可能
+        tdPressure.style.backgroundColor = "#333";
         tr.appendChild(tdPressure);
+
+        const tdWeather = document.createElement('td');
+        tdWeather.contentEditable = "true"; // 手動で入力可能
+        tdWeather.style.backgroundColor = "#333";
+        tr.appendChild(tdWeather);
 
         table.appendChild(tr);
       });
