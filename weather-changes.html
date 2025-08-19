@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>天気の変化 – Azaponの自由研究</title>
+  <link rel="icon" href="images/azarasi.png" type="image/png" />
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #1a1a1a, #333);
+      color: #eee;
+      margin: 40px auto;
+      max-width: 900px;
+      line-height: 1.6;
+      box-shadow: 0 0 20px rgba(0,0,0,0.7);
+      border-radius: 10px;
+      padding: 30px 20px;
+    }
+    h1 { color: #4fc3f7; text-align: center; font-size: 2.5rem; text-shadow: 0 0 8px #4fc3f7; }
+    h2 { color: #81d4fa; font-size: 1.8rem; margin-top: 2em; }
+    p { font-size: 1.2em; text-shadow: 0 0 5px rgba(0,0,0,0.7); }
+    table { width: 100%; border-collapse: collapse; margin-top: 1em; }
+    th, td { border: 1px solid #444; padding: 8px; text-align: center; }
+    th { background-color: rgba(79, 195, 247, 0.2); }
+    img { max-width: 300px; height: auto; display: block; margin: 10px auto; border-radius: 8px; }
+    nav a { color: #81d4fa; margin: 0 1em; text-decoration: none; font-weight: bold; transition: color 0.3s ease; }
+    nav a:hover { color: #a0e9ff; text-decoration: underline; }
+    footer { margin-top: 3em; font-size: 0.8em; color: #aaa; font-style: italic; }
+  </style>
+</head>
+<body>
+
+  <h1>天気の変化 – 日々の観察</h1>
+
+  <nav>
+    <a href="index.html">トップ</a> |
+    <a href="air-pressure-changes.html">気圧の変化</a> |
+    <a href="diary.html">日記</a>
+  </nav>
+
+  <h2>観察記録（diary.htmlから自動取得）</h2>
+  <table id="weather-table">
+    <tr>
+      <th>日付</th>
+      <th>画像</th>
+      <th>天気</th>
+    </tr>
+    <!-- JavaScriptで自動追加 -->
+  </table>
+
+  <h2>まとめ</h2>
+  <p>日々の天気を写真で確認することで、気圧の変化との関係や季節の変動を視覚的に理解できます。自由研究では、毎日の観察を続けることがポイントです。</p>
+
+  <footer>
+    &copy; 2025 zpgilo39 | Powered by Azapon
+  </footer>
+
+  <script>
+    // diary.html をフェッチして記事を自動取得
+    fetch('diary.html')
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const articles = doc.querySelectorAll('article');
+        const table = document.getElementById('weather-table');
+
+        articles.forEach(article => {
+          const date = article.querySelector('time')?.textContent || '';
+          const img = article.querySelector('img')?.outerHTML || '';
+
+          // 簡易天気判定（alt文字列を参照）
+          let weather = '不明';
+          const imgAlt = article.querySelector('img')?.alt || '';
+          if (imgAlt.includes('晴れ')) weather = '晴れ';
+          else if (imgAlt.includes('曇り')) weather = '曇り';
+          else if (imgAlt.includes('雨')) weather = '雨';
+
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${date}</td>
+            <td>${img}</td>
+            <td>${weather}</td>
+          `;
+          table.appendChild(row);
+        });
+      })
+      .catch(err => console.error('diary.html 読み込み失敗:', err));
+  </script>
+
+</body>
+</html>
