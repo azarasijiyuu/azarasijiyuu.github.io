@@ -5,20 +5,20 @@
   <title>天気の変化 – Azaponの自由研究</title>
   <link rel="icon" href="images/azarasi.png" type="image/png">
   <style>
-    body { font-family:'Helvetica Neue', Arial, sans-serif; background:#222; color:#eee; margin:40px auto; max-width:900px; line-height:1.6; padding:30px 20px; border-radius:10px; box-shadow:0 0 20px rgba(0,0,0,0.7);}
-    h1 { text-align:center; color:#4fc3f7; font-size:2.5rem; text-shadow:0 0 8px #4fc3f7;}
-    table { width:100%; border-collapse: collapse; margin-top:2em; }
-    th, td { border:1px solid #444; padding:8px; text-align:center; }
+    body { font-family:'Helvetica Neue',Arial,sans-serif; background:linear-gradient(135deg,#1a1a1a,#333); color:#eee; margin:40px auto; max-width:900px; line-height:1.6; box-shadow:0 0 20px rgba(0,0,0,0.7); border-radius:10px; padding:30px 20px; }
+    h1 { color:#4fc3f7; text-align:center; font-size:2.5rem; text-shadow:0 0 8px #4fc3f7; }
+    h2 { color:#81d4fa; font-size:1.8rem; margin-top:2em; }
+    table { width:100%; border-collapse: collapse; margin-top:1em; }
+    th,td { border:1px solid #444; padding:8px; text-align:center; }
     th { background-color: rgba(79,195,247,0.2); }
-    img { max-width:200px; height:auto; border-radius:5px; }
+    img { max-width:400px; height:auto; display:block; margin:15px auto; border-radius:8px; }
     nav a { color:#81d4fa; margin:0 1em; text-decoration:none; font-weight:bold; }
     nav a:hover { color:#a0e9ff; text-decoration:underline; }
     footer { margin-top:3em; font-size:0.8em; color:#aaa; font-style:italic; }
-    section { margin-top:2em; }
   </style>
 </head>
 <body>
-  <h1>天気の変化 – 自由研究</h1>
+  <h1>天気の変化 – 水パイプバロメーター観察</h1>
 
   <nav>
     <a href="index.html">トップ</a> |
@@ -26,74 +26,40 @@
     <a href="diary.html">日記</a>
   </nav>
 
-  <section>
-    <h2>結論</h2>
-    <p>気圧や観察画像をもとに、天気の変化を理解することができる。晴れ・曇り・雨の対応を確認しよう。</p>
-  </section>
+  <h2>結論</h2>
+  <p>水パイプバロメーターの水面の高さを観察すると、天気の変化が予測しやすくなります。</p>
 
-  <section>
-    <h2>観察記録</h2>
-    <table id="data-table">
+  <h2>観察記録</h2>
+  <table id="weather-table">
+    <thead>
       <tr>
         <th>日付</th>
+        <th>スプレッドシート</th>
         <th>画像</th>
-        <th>気圧 (hPa)</th>
-        <th>天気</th>
       </tr>
-    </table>
-  </section>
+    </thead>
+    <tbody></tbody>
+  </table>
 
-  <section>
-    <h2>まとめ</h2>
-    <p>日々の観察を記録し、気圧と天気の関係を整理することで自由研究の理解が深まる。</p>
-  </section>
+  <h2>まとめ</h2>
+  <p>diary.html の article を自動で読み込み、スプレッドシート iframe と画像を反映。自由研究での天気観察に便利です。</p>
+
+  <footer>&copy; 2025 zpgilo39 | Powered by Azapon</footer>
 
   <script>
-  async function loadDiaryData() {
-    try {
-      const res = await fetch('diary.html');
-      const text = await res.text();
+    fetch('diary.html').then(resp => resp.text()).then(html => {
       const parser = new DOMParser();
-      const doc = parser.parseFromString(text,'text/html');
-      const articles = doc.querySelectorAll('article');
-      const table = document.getElementById('data-table');
-
-      articles.forEach(article => {
-        const date = article.querySelector('time')?.getAttribute('datetime') || '';
-        const imgSrc = article.querySelector('img')?.getAttribute('src') || '';
+      const doc = parser.parseFromString(html,'text/html');
+      const tbody = document.querySelector('#weather-table tbody');
+      doc.querySelectorAll('article').forEach(article=>{
+        const date = article.querySelector('time')?.textContent || '';
+        const iframe = article.querySelector('iframe')?.outerHTML || '';
+        const imgSrc = article.querySelector('img')?.src || '';
         const tr = document.createElement('tr');
-
-        const tdDate = document.createElement('td');
-        tdDate.textContent = date;
-        tr.appendChild(tdDate);
-
-        const tdImg = document.createElement('td');
-        if(imgSrc){
-          const img = document.createElement('img');
-          img.src = imgSrc;
-          tdImg.appendChild(img);
-        }
-        tr.appendChild(tdImg);
-
-        const tdPressure = document.createElement('td');
-        tdPressure.contentEditable = "true"; // 手動で入力可能
-        tdPressure.style.backgroundColor = "#333";
-        tr.appendChild(tdPressure);
-
-        const tdWeather = document.createElement('td');
-        tdWeather.contentEditable = "true"; // 手動で入力可能
-        tdWeather.style.backgroundColor = "#333";
-        tr.appendChild(tdWeather);
-
-        table.appendChild(tr);
+        tr.innerHTML = `<td>${date}</td><td>${iframe}</td><td>${imgSrc ? '<img src="'+imgSrc+'">' : ''}</td>`;
+        tbody.appendChild(tr);
       });
-    } catch(err){ console.error('diary.html読み込み失敗:',err);}
-  }
-  loadDiaryData();
+    });
   </script>
-
-  <footer>
-    &copy; 2025 zpgilo39 | Powered by Azapon
-  </footer>
 </body>
 </html>
