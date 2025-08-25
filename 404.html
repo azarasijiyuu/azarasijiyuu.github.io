@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Azapon 404</title>
+  <link rel="icon" type="image/png" href="images/azarasi.png">
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: radial-gradient(circle at center, #3aaef2, #0a0f2e 80%);
+      color: #fff;
+      text-align: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* 光るオーラのエフェクト */
+    body::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, #00f, #0ff, #00f, #0ff, #00f);
+      animation: rotate 10s linear infinite;
+      opacity: 0.2;
+      z-index: 0;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    h1 {
+      font-size: 5em;
+      margin: 0;
+      text-shadow: 0 0 20px #6cf, 0 0 40px #0ff, 0 0 80px #3aaef2;
+      z-index: 1;
+    }
+
+    p {
+      font-size: 1.5em;
+      margin: 10px 0 30px;
+      text-shadow: 0 0 10px #fff, 0 0 20px #6cf;
+      z-index: 1;
+    }
+
+    .icon {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 20px;
+      animation: float 3s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    a {
+      display: inline-block;
+      padding: 14px 28px;
+      background: #fff;
+      color: #3aaef2;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.2em;
+      box-shadow: 0 0 15px #0ff, 0 0 30px #6cf;
+      transition: 0.3s;
+      z-index: 1;
+    }
+
+    a:hover {
+      background: #eef;
+      transform: scale(1.08);
+      box-shadow: 0 0 20px #6cf, 0 0 40px #0ff;
+    }
+  </style>
+</head>
+<body>
+  <img src="images/azarasi.png" alt="Azapon" class="icon">
+  <h1>404</h1>
+  <p>Azaponが光の海で迷子になっちゃったみたい… 🌌</p>
+  <a href="index.html">🏠 トップに戻る</a>
+</body>
+</html>
