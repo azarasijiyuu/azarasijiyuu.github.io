@@ -8,7 +8,7 @@
     body {
       margin: 0;
       font-family: "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #e6f6ff, #cce5f9);
+      background: radial-gradient(circle at center, #e6f6ff, #cce5f9, #b0d4f5);
       color: #333;
       text-align: center;
       height: 100vh;
@@ -16,19 +16,42 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
+    }
+
+    /* 光のオーラ */
+    body::before {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background: conic-gradient(from 0deg, #aee1ff, #ffffff, #aee1ff, #ffffff, #aee1ff);
+      animation: rotate 15s linear infinite;
+      opacity: 0.25;
+      z-index: 0;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     h1 {
       font-size: 4.5em;
       margin: 0;
       color: #2a6ebb;
-      text-shadow: 0 0 10px rgba(42,110,187,0.3);
+      text-shadow: 0 0 15px rgba(42,110,187,0.5), 0 0 30px rgba(173,216,255,0.7);
+      z-index: 1;
     }
 
     p {
       font-size: 1.4em;
       margin: 15px 0 30px;
-      color: #444;
+      color: #333;
+      text-shadow: 0 0 8px rgba(255,255,255,0.6);
+      z-index: 1;
     }
 
     .icon {
@@ -36,6 +59,8 @@
       height: 120px;
       margin-bottom: 20px;
       animation: float 3s ease-in-out infinite;
+      filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px #aee1ff);
+      z-index: 1;
     }
 
     @keyframes float {
@@ -52,20 +77,22 @@
       text-decoration: none;
       font-weight: bold;
       font-size: 1.1em;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 0 10px #6cf, 0 0 25px #aee1ff;
       transition: 0.3s;
+      z-index: 1;
     }
 
     a:hover {
       background: #1e4d85;
-      transform: scale(1.05);
+      transform: scale(1.08);
+      box-shadow: 0 0 20px #6cf, 0 0 40px #aee1ff;
     }
   </style>
 </head>
 <body>
   <img src="images/azarasi.png" alt="Azapon" class="icon">
   <h1>404</h1>
-  <p>Azaponが観測データの海で迷子になっちゃったみたい… 🔬☁</p>
+  <p>Azaponが観測データの光に包まれて迷子になっちゃったみたい… ✨🔬</p>
   <a href="index.html">📖 研究トップに戻る</a>
 </body>
 </html>
