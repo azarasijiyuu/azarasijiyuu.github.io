@@ -19,17 +19,32 @@
       overflow: hidden;
     }
 
-    /* 光のオーラ */
+    /* 光のオーラ＋星 */
     body::before {
       content: "";
       position: absolute;
-      width: 200%;
-      height: 200%;
-      top: -50%;
-      left: -50%;
+      width: 250%;
+      height: 250%;
+      top: -75%;
+      left: -75%;
       background: conic-gradient(from 0deg, #aee1ff, #ffffff, #aee1ff, #ffffff, #aee1ff);
-      animation: rotate 15s linear infinite;
-      opacity: 0.25;
+      animation: rotate 20s linear infinite;
+      opacity: 0.3;
+      z-index: 0;
+      filter: blur(40px);
+    }
+
+    body::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1px);
+      background-size: 50px 50px;
+      opacity: 0.4;
+      animation: twinkle 6s ease-in-out infinite alternate;
       z-index: 0;
     }
 
@@ -37,47 +52,55 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+    @keyframes twinkle {
+      0% { opacity: 0.3; }
+      100% { opacity: 0.6; }
+    }
 
     h1 {
-      font-size: 4.5em;
+      font-size: 4.8em;
       margin: 0;
       color: #2a6ebb;
-      text-shadow: 0 0 15px rgba(42,110,187,0.5), 0 0 30px rgba(173,216,255,0.7);
+      text-shadow: 
+        0 0 20px rgba(42,110,187,0.8),
+        0 0 40px rgba(173,216,255,0.8),
+        0 0 80px rgba(173,216,255,0.9);
       z-index: 1;
     }
 
     p {
-      font-size: 1.4em;
-      margin: 15px 0 30px;
-      color: #333;
-      text-shadow: 0 0 8px rgba(255,255,255,0.6);
+      font-size: 1.3em;
+      margin: 20px 0 40px;
+      color: #111;
+      text-shadow: 0 0 12px rgba(255,255,255,0.7);
+      max-width: 600px;
       z-index: 1;
     }
 
     .icon {
-      width: 120px;
-      height: 120px;
-      margin-bottom: 20px;
-      animation: float 3s ease-in-out infinite;
-      filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px #aee1ff);
+      width: 110px;
+      height: 110px;
+      margin-bottom: 25px;
+      animation: float 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 15px #fff) drop-shadow(0 0 35px #aee1ff);
       z-index: 1;
     }
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
+      50% { transform: translateY(-14px); }
     }
 
     a {
       display: inline-block;
-      padding: 12px 24px;
+      padding: 14px 30px;
       background: #2a6ebb;
       color: #fff;
-      border-radius: 25px;
+      border-radius: 30px;
       text-decoration: none;
       font-weight: bold;
-      font-size: 1.1em;
-      box-shadow: 0 0 10px #6cf, 0 0 25px #aee1ff;
+      font-size: 1.15em;
+      box-shadow: 0 0 15px #6cf, 0 0 35px #aee1ff;
       transition: 0.3s;
       z-index: 1;
     }
@@ -85,14 +108,18 @@
     a:hover {
       background: #1e4d85;
       transform: scale(1.08);
-      box-shadow: 0 0 20px #6cf, 0 0 40px #aee1ff;
+      box-shadow: 0 0 25px #6cf, 0 0 50px #aee1ff;
     }
   </style>
 </head>
 <body>
   <img src="images/azarasi.png" alt="Azapon" class="icon">
   <h1>404</h1>
-  <p>Azaponが観測データの光に包まれて迷子になっちゃったみたい… ✨🔬</p>
+  <p>
+    指定されたページは見つかりません。<br>
+    データ探索の過程で経路が存在しない可能性があります。<br>
+    研究トップページにお戻りください。
+  </p>
   <a href="index.html">📖 研究トップに戻る</a>
 </body>
 </html>
